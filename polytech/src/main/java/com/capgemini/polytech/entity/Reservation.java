@@ -2,12 +2,14 @@ package com.capgemini.polytech.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "reservation")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Reservation {
     @EmbeddedId //clé composite, Ce champ doit être uun objet complexe qui contient les clés étrangères utilisateurId et veloId
     private ReservationId id; //on doit définir une classe spécifique qui encapsule les cles primaires composites
@@ -26,7 +28,6 @@ public class Reservation {
     private int reservation;
 
 
-    public Reservation() {}
     public Reservation(int reservation, Utilisateur utilisateur, Velo velo) {
         this.reservation = reservation;
         this.utilisateur = utilisateur;

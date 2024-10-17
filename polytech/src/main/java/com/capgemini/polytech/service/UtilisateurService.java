@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UtilisateurService {
     public List<UtilisateurDTO> getAllUtilisateurs(){
-        return ArrayList<>;
+        ArrayList<UtilisateurDTO> flemme = new ArrayList<>();
+        return flemme;
     }
 }

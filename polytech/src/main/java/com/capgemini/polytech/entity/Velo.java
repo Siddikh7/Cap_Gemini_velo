@@ -2,12 +2,14 @@ package com.capgemini.polytech.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "velo")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Velo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,6 @@ public class Velo {
     @Column(name="point_geo",length = 100, nullable = false, unique = false)
     private String pointGeo;
 
-    public Velo() {}
     public Velo(String nom, int quantite, String description, String pointGeo) {
         this.nom = nom;
         this.quantite = quantite;
