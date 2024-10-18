@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/utilisateurs")
 public class UtilisateurController {
-    private UtilisateurService utilisateurSerice;
+    /*private UtilisateurService utilisateurSerice;
     private UtilisateurMapper utilisateurMapper;
 
     @GetMapping
@@ -34,5 +34,5 @@ public class UtilisateurController {
     public UtilisateurController(UtilisateurService utilisateurService, UtilisateurMapper utilisateurMapper) {
         this.utilisateurSerice = utilisateurService;
         this.utilisateurMapper = utilisateurMapper;
-    }
+    }*/
 }

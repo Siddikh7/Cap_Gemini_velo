@@ -1,6 +1,7 @@
 package com.capgemini.polytech.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Velo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +29,5 @@ public class Velo {
     @Column(name="point_geo",length = 100, nullable = false, unique = false)
     private String pointGeo;
 
-    public Velo(String nom, int quantite, String description, String pointGeo) {
-        this.nom = nom;
-        this.quantite = quantite;
-        this.description = description;
-        this.pointGeo = pointGeo;
-    }
 
 }

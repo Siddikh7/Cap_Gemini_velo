@@ -1,6 +1,7 @@
 package com.capgemini.polytech.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +31,5 @@ public class Utilisateur {
 
     @Column(name="username",length = 100, nullable = false, unique = false)
     private String username;
-
-
-
-    public Utilisateur(String nom, String prenom, String mail, String username, String password) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mail = mail;
-        this.password = password;
-        this.username = username;
-    }
 
 }
