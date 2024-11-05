@@ -5,7 +5,7 @@ import com.capgemini.polytech.entity.Utilisateur;
 import org.mapstruct.Mapper;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring") //MapStruct pour générer automatiquement le code des méthodes de mappage
 public interface UtilisateurMapper {
 
     UtilisateurDTO toDTO(Utilisateur utilisateur);

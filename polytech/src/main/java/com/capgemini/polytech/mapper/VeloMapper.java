@@ -10,6 +10,6 @@ public interface VeloMapper {
 
     VeloDTO toDTO(Velo velo);
 
-    Velo fromDTO(VeloDTO veloDTO);
+    Velo toEntity(VeloDTO veloDTO);
 
 }

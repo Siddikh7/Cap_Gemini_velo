@@ -2,16 +2,19 @@ package com.capgemini.polytech.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ReservationId implements Serializable {
     @Column(name = "utilisateur_id")
     private int utilisateurId;
@@ -24,4 +27,17 @@ public class ReservationId implements Serializable {
         this.utilisateurId = utilisateurId;
         this.veloId = veloId;
     }
+
+//    @Override
+//    public boolean equals(Object object) {
+//        if (this == object) return true;
+//        if (object == null || getClass() != object.getClass()) return false;
+//        ReservationId that = (ReservationId) object;
+//        return utilisateurId == that.utilisateurId && veloId == that.veloId;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(utilisateurId, veloId);
+//    }
 }
