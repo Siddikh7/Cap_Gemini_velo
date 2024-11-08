@@ -7,6 +7,7 @@ import com.capgemini.polytech.repository.UtilisateurRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,5 +24,34 @@ public class UtilisateurService {
         return utilisateurRepository.findAll().stream()
                 .map(utilisateurMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+    public Utilisateur createUser(Utilisateur utilisateur) {
+        return utilisateurRepository.save(utilisateur);
+    }
+
+    public Utilisateur findById(int id) {
+        return utilisateurRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas"));
+    }
+
+    public Utilisateur updateUser(int id, Utilisateur utilisateurDetails) {
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas"));
+
+        // Mise à jour des propriétés en fonction des champs de l'entité Utilisateur
+        utilisateur.setNom(utilisateurDetails.getNom());
+        utilisateur.setPrenom(utilisateurDetails.getPrenom());
+        utilisateur.setMail(utilisateurDetails.getMail());
+        utilisateur.setPassword(utilisateurDetails.getPassword());
+        utilisateur.setUsername(utilisateurDetails.getUsername());
+
+        return utilisateurRepository.save(utilisateur);
+    }
+
+    public void deleteUser(int id) {
+        if (!utilisateurRepository.existsById(id)) {
+            throw new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas");
+        }
+        utilisateurRepository.deleteById(id);
     }
 }

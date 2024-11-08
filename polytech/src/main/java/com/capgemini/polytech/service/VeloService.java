@@ -30,6 +30,11 @@ public class VeloService {
         veloRepository.save(velo);
     }
 
+    public void createVelo(VeloDTO veloDTO){
+        Velo velo = veloMapper.toEntity(veloDTO);
+        veloRepository.save(velo);
+    }
+
     public Velo findByIdVelo(int id) {
         Optional<Velo> optionalVelo = veloRepository.findById(id);
         if (optionalVelo.isPresent()) {

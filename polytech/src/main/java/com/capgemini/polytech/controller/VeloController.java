@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/velos")
@@ -28,18 +29,26 @@ public class VeloController {
     public List<Velo> getAllVel(){
         return veloService.getAllVelos();
     }
+    /*
+    @GetMapping
+    @ResponseBody
+    public List<VeloDTO> getALLVelDTO(){
+        return veloService.getAllVelos().stream()
+                .map(utilisateurMapper::toDTO)
+                .collect(Collectors.toList());
+    }*/
     @PostMapping("/addvelo")
     @ResponseBody
     public void createV(@RequestBody Velo velo){
         veloService.createVelo(velo);
     }
-//    @PostMapping
-//    public Produit creerProduit(@RequestBody Produit produit) {
-//        return produitService.creerProduit(produit);
-//    }
-//
 
-//
+    @PostMapping("/addveloDTO")
+    @ResponseBody
+    public void createV(@RequestBody VeloDTO veloDTO){
+        veloService.createVelo(veloDTO);
+    }
+
 
     @GetMapping("/id")
     public ResponseEntity<Velo> trouverParIdVelo(@RequestParam int id) {
