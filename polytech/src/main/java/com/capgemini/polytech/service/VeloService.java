@@ -1,18 +1,15 @@
 package com.capgemini.polytech.service;
 
-import com.capgemini.polytech.dto.UtilisateurDTO;
-import com.capgemini.polytech.dto.VeloDTO;
-import com.capgemini.polytech.entity.Velo;
-import com.capgemini.polytech.mapper.UtilisateurMapper;
-import com.capgemini.polytech.mapper.VeloMapper;
-import com.capgemini.polytech.repository.UtilisateurRepository;
-import com.capgemini.polytech.repository.VeloRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.capgemini.polytech.dto.VeloDTO;
+import com.capgemini.polytech.entity.Velo;
+import com.capgemini.polytech.mapper.VeloMapper;
+import com.capgemini.polytech.repository.VeloRepository;
 
 @Service
 public class VeloService {
