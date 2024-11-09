@@ -1,38 +1,25 @@
 package com.capgemini.polytech.service;
 
-import com.capgemini.polytech.dto.UtilisateurDTO;
-import com.capgemini.polytech.dto.VeloDTO;
 import com.capgemini.polytech.entity.Velo;
-import com.capgemini.polytech.mapper.UtilisateurMapper;
-import com.capgemini.polytech.mapper.VeloMapper;
-import com.capgemini.polytech.repository.UtilisateurRepository;
 import com.capgemini.polytech.repository.VeloRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class VeloService {
     private final VeloRepository veloRepository;
-    private final VeloMapper veloMapper ;
 
-    public VeloService(VeloRepository veloRepository, VeloMapper veloMapper){
+    public VeloService(VeloRepository veloRepository){
         this.veloRepository = veloRepository;
-        this.veloMapper = veloMapper;
     }
     public List<Velo> getAllVelos(){
         return veloRepository.findAll();
     }
-    public void createVelo(Velo velo){
-        veloRepository.save(velo);
-    }
-
-    public void createVelo(VeloDTO veloDTO){
-        Velo velo = veloMapper.toEntity(veloDTO);
-        veloRepository.save(velo);
+    public Velo createVelo(Velo velo){
+         return veloRepository.save(velo);
     }
 
     public Velo findByIdVelo(int id) {
@@ -45,17 +32,14 @@ public class VeloService {
     }
 
     public Velo updateVelo(int id, Velo velo){
-        Optional<Velo> optionalVelo = veloRepository.findById(id);
-        if(optionalVelo.isPresent()){
-            Velo velo1 = optionalVelo.get();
-            velo1.setNom(velo.getNom());
-            velo1.setDescription(velo.getDescription());
-            velo1.setQuantite(velo.getQuantite());
-            velo1.setPointGeo(velo.getPointGeo());
-            return veloRepository.save(velo1);
-        }else{
-            throw new NoSuchElementException("ce velo existe pas");
-        }
+        Velo velo1 = veloRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("ce velo n'existe pas"));
+        velo1.setNom(velo.getNom());
+        velo1.setQuantite(velo.getQuantite());
+        velo1.setDescription(velo.getDescription());
+        velo1.setPointGeo(velo.getPointGeo());
+
+        return veloRepository.save(velo1);
     }
     public void deleteVelo(int id){
         if(!veloRepository.existsById(id)){

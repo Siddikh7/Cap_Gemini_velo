@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReservationDTO {
     private int reservation;
-    private Velo velo;
-    private Utilisateur utilisateur;
+    private int veloId;
+    private int utilisateurId;
 
 }

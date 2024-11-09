@@ -28,16 +28,4 @@ public class ReservationId implements Serializable {
         this.veloId = veloId;
     }
 
-//    @Override
-//    public boolean equals(Object object) {
-//        if (this == object) return true;
-//        if (object == null || getClass() != object.getClass()) return false;
-//        ReservationId that = (ReservationId) object;
-//        return utilisateurId == that.utilisateurId && veloId == that.veloId;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(utilisateurId, veloId);
-//    }
 }

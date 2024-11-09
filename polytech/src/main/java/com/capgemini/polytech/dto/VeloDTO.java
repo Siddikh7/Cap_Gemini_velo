@@ -9,6 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class VeloDTO {
     private String nom;
+    private int quantite;
     private String description;
+    private String pointGeo;
 
 }

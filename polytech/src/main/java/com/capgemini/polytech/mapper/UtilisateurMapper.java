@@ -8,8 +8,23 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring") //MapStruct pour générer automatiquement le code des méthodes de mappage
 public interface UtilisateurMapper {
 
-    UtilisateurDTO toDTO(Utilisateur utilisateur);
+    default UtilisateurDTO toDTO(Utilisateur utilisateur){
+        UtilisateurDTO dto = new UtilisateurDTO();
+        dto.setNom(utilisateur.getNom());
+        dto.setPrenom(utilisateur.getPrenom());
+        dto.setMail(utilisateur.getMail());
+        dto.setUsername(utilisateur.getUsername());
+        return dto;
+    }
 
-    Utilisateur toEntity(UtilisateurDTO dto);
+    default Utilisateur toEntity(UtilisateurDTO dto){
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setNom(dto.getNom());
+        utilisateur.setPrenom(dto.getPrenom());
+        utilisateur.setMail(dto.getMail());
+        utilisateur.setUsername(dto.getUsername());
+        utilisateur.setPassword("password");
+        return utilisateur;
+    }
 
 }

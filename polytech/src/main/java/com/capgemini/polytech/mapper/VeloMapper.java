@@ -5,7 +5,7 @@ import com.capgemini.polytech.entity.Velo;
 import org.mapstruct.Mapper;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring") //MapStruct pour générer automatiquement le code des méthodes de mappage
 public interface VeloMapper {
 
     VeloDTO toDTO(Velo velo);

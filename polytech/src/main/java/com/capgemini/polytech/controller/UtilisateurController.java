@@ -1,7 +1,6 @@
 package com.capgemini.polytech.controller;
 
 import com.capgemini.polytech.dto.UtilisateurDTO;
-import com.capgemini.polytech.entity.Utilisateur;
 import com.capgemini.polytech.mapper.UtilisateurMapper;
 import com.capgemini.polytech.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,58 +10,66 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/utilisateurs")
 public class UtilisateurController {
     private final UtilisateurService utilisateurService;
+    private final UtilisateurMapper utilisateurMapper;
+
 
     @Autowired
-    public UtilisateurController(UtilisateurService utilisateurService) {
+    public UtilisateurController(UtilisateurService utilisateurService, UtilisateurMapper  utilisateurMapper) {
         this.utilisateurService = utilisateurService;
+        this.utilisateurMapper = utilisateurMapper;
     }
 
     @GetMapping
     public ResponseEntity<List<UtilisateurDTO>> getAllUsers() {
-        List<UtilisateurDTO> users = utilisateurService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return ResponseEntity.ok(utilisateurService.getAllUsers()
+                .stream()
+                .map(utilisateurMapper::toDTO)
+                .collect(Collectors.toList()));
     }
 
     @PostMapping
-    public ResponseEntity<Utilisateur> createUser(@RequestBody Utilisateur utilisateur) {
-        Utilisateur newUser = utilisateurService.createUser(utilisateur);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<UtilisateurDTO> createUser(@RequestBody UtilisateurDTO utilisateurDTO) {
+        return ResponseEntity.ok(
+                utilisateurMapper.toDTO(
+                        utilisateurService.createUser(
+                                utilisateurMapper.toEntity(utilisateurDTO))));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Utilisateur> getUserById(@PathVariable int id) {
+    @GetMapping("/id")
+    public ResponseEntity<UtilisateurDTO> getUserById(@RequestParam int id) {
         try {
-            Utilisateur utilisateur = utilisateurService.findById(id);
-            return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+            return ResponseEntity.ok(
+                    utilisateurMapper.toDTO(
+                            utilisateurService.findById(id)));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PutMapping()
+    public ResponseEntity<UtilisateurDTO> updateUser(@RequestParam int id, @RequestBody UtilisateurDTO utilisateurDTO) {
+        try {
+            return ResponseEntity.ok(
+                    utilisateurMapper.toDTO(
+                            utilisateurService.updateUser(id, utilisateurMapper.toEntity(utilisateurDTO))));
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("/MAJId")
-    public ResponseEntity<Utilisateur> updateUser(@RequestParam int id, @RequestBody Utilisateur userDetails) {
-        try {
-            Utilisateur updatedUser = utilisateurService.updateUser(id, userDetails);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/DelId")
-    public ResponseEntity<Void> deleteUser(@RequestParam int id) {
+    @DeleteMapping()
+    public ResponseEntity<String> deleteUser(@RequestParam int id) {
         try {
             utilisateurService.deleteUser(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.ok("utilisateur bien supp");
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("erreur : flm");
         }
     }
 

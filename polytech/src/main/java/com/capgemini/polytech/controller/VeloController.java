@@ -2,6 +2,7 @@ package com.capgemini.polytech.controller;
 
 import com.capgemini.polytech.dto.VeloDTO;
 import com.capgemini.polytech.entity.Velo;
+import com.capgemini.polytech.mapper.VeloMapper;
 import com.capgemini.polytech.service.VeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,59 +18,62 @@ import java.util.stream.Collectors;
 @RequestMapping("/velos")
 public class VeloController {
     private final VeloService veloService;
+    private final VeloMapper veloMapper;
+
 
     @Autowired
-    public VeloController(VeloService veloService){
+    public VeloController(VeloService veloService, VeloMapper veloMapper){
         this.veloService = veloService;
+        this.veloMapper = veloMapper;
     }
 
 
     @GetMapping
     @ResponseBody
-    public List<Velo> getAllVel(){
-        return veloService.getAllVelos();
-    }
-    /*
-    @GetMapping
-    @ResponseBody
-    public List<VeloDTO> getALLVelDTO(){
-        return veloService.getAllVelos().stream()
-                .map(utilisateurMapper::toDTO)
-                .collect(Collectors.toList());
-    }*/
-    @PostMapping("/addvelo")
-    @ResponseBody
-    public void createV(@RequestBody Velo velo){
-        veloService.createVelo(velo);
+    public ResponseEntity<List<VeloDTO>> getAllVel(){
+        return ResponseEntity.ok(veloService.getAllVelos()
+                .stream()
+                .map(veloMapper::toDTO)
+                .collect(Collectors.toList()));
     }
 
-    @PostMapping("/addveloDTO")
+    @PostMapping()
     @ResponseBody
-    public void createV(@RequestBody VeloDTO veloDTO){
-        veloService.createVelo(veloDTO);
+    public ResponseEntity<VeloDTO> createV(@RequestBody VeloDTO velodto){
+        /*Velo velo = veloMapper.toEntity(velodto);
+        Velo velo1 = veloService.createVelo(velo);
+        VeloDTO veloDTO = veloMapper.toDTO(velo1);
+        return ResponseEntity.ok(veloDTO);*/
+        //version plus stylee
+        return ResponseEntity.ok(
+                veloMapper.toDTO(
+                        veloService.createVelo(
+                                veloMapper.toEntity(velodto))));
     }
 
 
     @GetMapping("/id")
-    public ResponseEntity<Velo> trouverParIdVelo(@RequestParam int id) {
+    public ResponseEntity<VeloDTO> trouverParIdVelo(@RequestParam int id) {
         Velo velo = veloService.findByIdVelo(id);
         if(velo == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(velo);
+        return ResponseEntity.ok(veloMapper.toDTO(velo));
     }
 
-    @PutMapping("/MAJid")
-    public Velo MettreAJourVelo(@RequestParam int id, @RequestBody Velo velo) {
+    @PutMapping()
+    public ResponseEntity<VeloDTO> MettreAJourVelo(@RequestParam int id, @RequestBody VeloDTO veloDTO) {
         try{
+            return ResponseEntity.ok(
+                    veloMapper.toDTO(
+                            veloService.updateVelo(id, veloMapper.toEntity(veloDTO))));
 
         } catch (RuntimeException e) {
             throw new NoSuchElementException(e);
         }
-        return veloService.updateVelo(id, velo);
     }
 
-    @DeleteMapping("/DELid")
+    @DeleteMapping()
     public ResponseEntity<String> supprimerVelo(@RequestParam  int id) {
         try {
             veloService.deleteVelo(id);
