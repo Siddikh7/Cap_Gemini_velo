@@ -10,6 +10,7 @@ public interface UtilisateurMapper {
 
     default UtilisateurDTO toDTO(Utilisateur utilisateur){
         UtilisateurDTO dto = new UtilisateurDTO();
+        dto.setId(utilisateur.getId());
         dto.setNom(utilisateur.getNom());
         dto.setPrenom(utilisateur.getPrenom());
         dto.setMail(utilisateur.getMail());
@@ -19,6 +20,7 @@ public interface UtilisateurMapper {
 
     default Utilisateur toEntity(UtilisateurDTO dto){
         Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setId(dto.getId());
         utilisateur.setNom(dto.getNom());
         utilisateur.setPrenom(dto.getPrenom());
         utilisateur.setMail(dto.getMail());

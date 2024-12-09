@@ -8,8 +8,24 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring") //MapStruct pour générer automatiquement le code des méthodes de mappage
 public interface VeloMapper {
 
-    VeloDTO toDTO(Velo velo);
+    default VeloDTO toDTO(Velo velo){
+        VeloDTO veloDTO = new VeloDTO();
+        veloDTO.setId(velo.getId());
+        veloDTO.setNom(velo.getNom());
+        veloDTO.setDescription(velo.getDescription());
+        veloDTO.setQuantite(velo.getQuantite());
+        veloDTO.setPointGeo(velo.getPointGeo());
+        return veloDTO;
+    }
 
-    Velo toEntity(VeloDTO veloDTO);
+    default Velo toEntity(VeloDTO veloDTO){
+        Velo velo = new Velo();
+        velo.setId(veloDTO.getId());
+        velo.setNom(veloDTO.getNom());
+        velo.setDescription(veloDTO.getDescription());
+        velo.setQuantite(veloDTO.getQuantite());
+        velo.setPointGeo(velo.getPointGeo());
+        return velo;
+    }
 
 }
