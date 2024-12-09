@@ -73,8 +73,9 @@ public class VeloController {
         }
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> supprimerVelo(@RequestParam  int id) {
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> supprimerVelo(@PathVariable  int id) {
         try {
             veloService.deleteVelo(id);
             return ResponseEntity.ok("velo bien supp");
