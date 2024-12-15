@@ -24,7 +24,7 @@ public interface VeloMapper {
         velo.setNom(veloDTO.getNom());
         velo.setDescription(veloDTO.getDescription());
         velo.setQuantite(veloDTO.getQuantite());
-        velo.setPointGeo(velo.getPointGeo());
+        velo.setPointGeo(veloDTO.getPointGeo());
         return velo;
     }
 
