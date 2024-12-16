@@ -52,13 +52,14 @@ public class VeloController {
     }
 
 
-    @GetMapping("/id")
-    public ResponseEntity<VeloDTO> trouverParIdVelo(@RequestParam int id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Velo> getVeloById(@PathVariable int id) {
         Velo velo = veloService.findByIdVelo(id);
-        if(velo == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        if (velo != null) {
+            return ResponseEntity.ok(velo);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(veloMapper.toDTO(velo));
     }
 
     @PutMapping()
@@ -73,8 +74,9 @@ public class VeloController {
         }
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> supprimerVelo(@RequestParam  int id) {
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> supprimerVelo(@PathVariable  int id) {
         try {
             veloService.deleteVelo(id);
             return ResponseEntity.ok("velo bien supp");

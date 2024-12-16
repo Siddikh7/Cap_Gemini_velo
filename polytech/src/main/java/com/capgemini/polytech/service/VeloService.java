@@ -23,12 +23,8 @@ public class VeloService {
     }
 
     public Velo findByIdVelo(int id) {
-        Optional<Velo> optionalVelo = veloRepository.findById(id);
-        if (optionalVelo.isPresent()) {
-            return optionalVelo.get();
-        } else {
-            throw new NoSuchElementException("ce velo n'existe pas");
-        }
+        Optional<Velo> velo = veloRepository.findById(id);
+        return velo.orElseThrow(() -> new RuntimeException("Velo not found with id " + id));
     }
 
     public Velo updateVelo(int id, Velo velo){

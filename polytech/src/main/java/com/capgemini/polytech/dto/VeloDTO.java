@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class VeloDTO {
+    private int id;
     private String nom;
     private int quantite;
     private String description;
