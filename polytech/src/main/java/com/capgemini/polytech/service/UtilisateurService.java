@@ -31,6 +31,11 @@ public class UtilisateurService {
                 .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas"));
     }
 
+    public Utilisateur findByMail(String mail) {
+        return utilisateurRepository.findByMail(mail)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'email " + mail + " n'existe pas"));
+    }
+
     public Utilisateur updateUser(int id, Utilisateur utilisateurDetails) {
         Utilisateur utilisateur = utilisateurRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas"));
@@ -50,5 +55,14 @@ public class UtilisateurService {
             throw new NoSuchElementException("Utilisateur avec l'ID " + id + " n'existe pas");
         }
         utilisateurRepository.deleteById(id);
+    }
+
+    public Utilisateur login(String Mail, String password) {
+        Utilisateur utilisateur = utilisateurRepository.findByMail(Mail)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'email " + Mail + " n'existe pas"));
+        if (!utilisateur.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Mot de passe incorrect");
+        }
+        return utilisateur;
     }
 }
