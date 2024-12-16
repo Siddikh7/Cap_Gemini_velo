@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+
 
 @Entity
 @Table(name = "velo")
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Velo {
+public class  Velo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
