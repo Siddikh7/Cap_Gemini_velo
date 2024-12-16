@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TP_ASI_Velo.iml" filepath="$PROJECT_DIR$/.idea/TP_ASI_Velo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/polytech/polytech.iml" filepath="$PROJECT_DIR$/polytech/polytech.iml" />
     </modules>
   </component>
 </project>
