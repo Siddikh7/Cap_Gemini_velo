@@ -10,24 +10,36 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Console;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * Contrôleur REST pour gérer les utilisateurs.
+ */
 @RestController
 @RequestMapping("/utilisateurs")
 public class UtilisateurController {
     private final UtilisateurService utilisateurService;
     private final UtilisateurMapper utilisateurMapper;
 
-
+    /**
+     * Constructeur du contrôleur d'utilisateur.
+     *
+     * @param utilisateurService le service d'utilisateur
+     * @param utilisateurMapper le mapper d'utilisateur
+     */
     @Autowired
-    public UtilisateurController(UtilisateurService utilisateurService, UtilisateurMapper  utilisateurMapper) {
+    public UtilisateurController(UtilisateurService utilisateurService, UtilisateurMapper utilisateurMapper) {
         this.utilisateurService = utilisateurService;
         this.utilisateurMapper = utilisateurMapper;
     }
 
+    /**
+     * Récupère tous les utilisateurs.
+     *
+     * @return une liste de tous les utilisateurs
+     */
     @GetMapping
     public ResponseEntity<List<UtilisateurDTO>> getAllUsers() {
         return ResponseEntity.ok(utilisateurService.getAllUsers()
@@ -36,6 +48,12 @@ public class UtilisateurController {
                 .collect(Collectors.toList()));
     }
 
+    /**
+     * Crée un nouvel utilisateur.
+     *
+     * @param utilisateurDTO les détails de l'utilisateur
+     * @return l'utilisateur créé
+     */
     @PostMapping
     public ResponseEntity<UtilisateurDTO> createUser(@RequestBody UtilisateurDTO utilisateurDTO) {
         return ResponseEntity.ok(
@@ -44,22 +62,32 @@ public class UtilisateurController {
                                 utilisateurMapper.toEntity(utilisateurDTO))));
     }
 
+    /**
+     * Authentifie un utilisateur.
+     *
+     * @param loginDTO les détails de connexion
+     * @return l'utilisateur authentifié ou une erreur
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        System.out.println("===================> Received login request for email: " + loginDTO.getMail());
-        System.out.println(loginDTO.getMail());
         try {
             Utilisateur utilisateur = utilisateurService.login(loginDTO.getMail(), loginDTO.getPassword());
             return ResponseEntity.ok(utilisateurMapper.toDTO(utilisateur));
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This account does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ce compte n'existe pas");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Une erreur est survenue");
         }
     }
 
+    /**
+     * Récupère un utilisateur par ID.
+     *
+     * @param id l'ID de l'utilisateur
+     * @return l'utilisateur correspondant
+     */
     @GetMapping("/id")
     public ResponseEntity<UtilisateurDTO> getUserById(@RequestParam int id) {
         try {
@@ -71,6 +99,13 @@ public class UtilisateurController {
         }
     }
 
+    /**
+     * Met à jour un utilisateur existant.
+     *
+     * @param id l'ID de l'utilisateur
+     * @param utilisateurDTO les détails de l'utilisateur
+     * @return l'utilisateur mis à jour
+     */
     @PutMapping()
     public ResponseEntity<UtilisateurDTO> updateUser(@RequestParam int id, @RequestBody UtilisateurDTO utilisateurDTO) {
         try {
@@ -82,14 +117,19 @@ public class UtilisateurController {
         }
     }
 
+    /**
+     * Supprime un utilisateur.
+     *
+     * @param id l'ID de l'utilisateur
+     * @return un message de confirmation ou une erreur
+     */
     @DeleteMapping()
     public ResponseEntity<String> deleteUser(@RequestParam int id) {
         try {
             utilisateurService.deleteUser(id);
-            return ResponseEntity.ok("utilisateur bien supp");
+            return ResponseEntity.ok("Utilisateur bien supprimé");
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("erreur : flm");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erreur : utilisateur non trouvé");
         }
     }
-
 }

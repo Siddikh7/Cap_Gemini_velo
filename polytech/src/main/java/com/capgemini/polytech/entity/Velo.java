@@ -6,30 +6,45 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
+/**
+ * Entité représentant un vélo.
+ */
 @Entity
 @Table(name = "velo")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class  Velo {
+public class Velo {
+
+    /**
+     * Identifiant unique du vélo.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="nom",length = 100, nullable = false, unique = false)
+    /**
+     * Nom du vélo.
+     */
+    @Column(name = "nom", length = 100, nullable = false, unique = false)
     private String nom;
 
-    @Column(name="quantite",length = 11, nullable = false, unique = false)
+    /**
+     * Quantité de vélos disponibles.
+     */
+    @Column(name = "quantite", length = 11, nullable = false, unique = false)
     private int quantite;
 
-    @Column(name="description",length = 100, nullable = true, unique = false)
+    /**
+     * Description du vélo.
+     */
+    @Column(name = "description", length = 100, nullable = true, unique = false)
     private String description;
 
-    @Column(name="point_geo",length = 100, nullable = false, unique = false)
+    /**
+     * Point géographique où se trouve le vélo.
+     */
+    @Column(name = "point_geo", length = 100, nullable = false, unique = false)
     private String pointGeo;
-
-
 }
