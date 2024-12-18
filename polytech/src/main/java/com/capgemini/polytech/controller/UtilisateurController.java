@@ -45,10 +45,19 @@ public class UtilisateurController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UtilisateurDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         System.out.println("===================> Received login request for email: " + loginDTO.getMail());
+        System.out.println(loginDTO.getMail());
+        try {
             Utilisateur utilisateur = utilisateurService.login(loginDTO.getMail(), loginDTO.getPassword());
             return ResponseEntity.ok(utilisateurMapper.toDTO(utilisateur));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This account does not exist");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
     }
 
     @GetMapping("/id")

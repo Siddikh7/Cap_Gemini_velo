@@ -57,12 +57,13 @@ public class UtilisateurService {
         utilisateurRepository.deleteById(id);
     }
 
-    public Utilisateur login(String Mail, String password) {
-        Utilisateur utilisateur = utilisateurRepository.findByMail(Mail)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'email " + Mail + " n'existe pas"));
+    public Utilisateur login(String mail, String password) {
+        Utilisateur utilisateur = utilisateurRepository.findByMail(mail)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur avec l'email " + mail + " n'existe pas"));
         if (!utilisateur.getPassword().equals(password)) {
             throw new IllegalArgumentException("Mot de passe incorrect");
         }
         return utilisateur;
     }
+
 }
